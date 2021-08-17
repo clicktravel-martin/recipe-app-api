@@ -20,12 +20,13 @@ class UserManager(BaseUserManager):
         superuser = self.create_user(email, password)
         superuser.is_superuser = True
         superuser.is_staff = True
+        superuser.save(using=self._db)
 
         return superuser
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    """Custom user modal that supports using email instead of username"""
+    """Custom user model that supports using email instead of username"""
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
